@@ -1,0 +1,28 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.define "ubuntu01" do |ubuntu01|
+    ubuntu01.vm.network "private_network", ip: "10.0.0.2", 
+                         virtualbox__intnet: "vlan100"
+    ubuntu01.vm.box = "ubuntu/trusty64"
+  end
+
+  config.vm.define "firewall" do |firewall|
+    firewall.vm.network "public_network"
+    firewall.vm.network "private_network", ip: "192.168.59.10"
+    firewall.vm.network "private_network", ip: "10.0.0.1", 
+                         virtualbox__intnet: "vlan100"
+    firewall.vm.network "private_network", ip: "10.1.1.1", 
+                         virtualbox__intnet: "vlan101"
+
+    
+    firewall.vm.box = "ubuntu/trusty64"
+  end
+
+  config.vm.define "ubuntu02" do |ubuntu02|
+    ubuntu02.vm.network "private_network", ip: "10.1.1.2", 
+                         virtualbox__intnet: "vlan101"
+    ubuntu02.vm.box = "ubuntu/trusty64"
+  end
+
+
+end
